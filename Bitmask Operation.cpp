@@ -34,3 +34,37 @@ bool isPowerOfTwo(ll n){ // O(1)
   }else {
       cout << "not power of two" << endl; 
   }
+
+
+
+// All sub Set by bitmask 
+void solve(){
+    ll n; cin >> n; 
+    vector<ll> v(n); 
+    for(auto& c : v) { cin >> c; }
+
+    vector<vector<ll>> ans; 
+
+    for(ll masks = 0; masks < (1 << n) ;masks++){
+
+        vector<ll> vv; 
+        for(ll i = 0; i < n; ++i) {
+            if (Knowbit(masks , i) == 1){
+                vv.push_back(v[i]); 
+            }
+        }
+
+        ans.push_back(vv); 
+    }
+
+    sort(ans.begin() , ans.end()); 
+
+    for (auto it : ans){
+        for (auto c : it){
+            cout << c << " "; 
+        }
+        cout << "\n"; 
+    }
+}
+
+
