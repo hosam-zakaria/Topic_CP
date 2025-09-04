@@ -8,3 +8,8 @@ while (x > 0) {
 }
 
 ll ans = (1LL << k) - 1;
+
+
+
+// proof Min Xor of the equation 
+// Min( (a ^ x) + (x ^ b) ) = (a ^ b) 
