@@ -17,6 +17,16 @@ ll Resetbit2(ll n, ll i){
     // change the bit in (n) to (0)
 }
 
+string DecToBinary(ll n) {
+    string s = ""; 
+    while (n){
+        s.push_back(char('0' + (n % 2))); 
+        n /= 2; 
+    }
+    reverse(s.begin() ,s.end()); 
+    return s; 
+}
+
 ll flip(ll n, ll i){
     return n ^ ((1<<i)); 
     // change the bit in (n) from (0) to (1) OR from (1) to (0)
