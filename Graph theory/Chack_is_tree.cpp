@@ -1,17 +1,16 @@
 // chack find the graph in cycle or Not (undirected graph)
 
-vector<ll> adj[N + 1]; 
-ll used[N + 1], flag = false; 
+vector<ll> adj[N]; 
+bool used[N], flag; 
 
 void DFS(ll node, ll parant){
-    used[node]++; 
+    used[node] = 1; 
     // cout << node << " "; 
     for(auto c : adj[node]){
         if (!used[c]) { 
             DFS(c, node); 
         }else if (c != parant){
-            cout << "cycle" << endl; 
-            return; 
+            flag = 1; 
         }
     }
 }
@@ -31,6 +30,21 @@ void solve(){
         adj[a].push_back(b); 
         adj[b].push_back(a); 
     }
-    DFS(1, -1);  // 1 2 4 5 3 
-    cout << "YES Tree" << endl; 
+
+    for (ll i = 1; i <= n ;i++) {
+        if (!used[i]) {
+            DFS(i ,- 1); 
+            if(flag){
+                cout << "NO" << endl; return; 
+            }
+        }
+    }
+
+    for (ll i = 1; i <= n ;i++) {
+        if (!used[i]) { 
+            cout << "NO" << endl; return; 
+        }
+    }
+    // DFS(1, -1);  // 1 2 4 5 3 
+    cout << "YES" << endl; 
 }
