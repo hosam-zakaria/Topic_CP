@@ -1,5 +1,9 @@
 // Bitmask Operation
 
+// First set bit on right dir
+ll x = i & -i; 
+
+
 ll Knowbit(ll n , ll i){
     return (n >> i) & 1; 
 }
