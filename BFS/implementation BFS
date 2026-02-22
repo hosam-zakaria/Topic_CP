@@ -1,0 +1,43 @@
+#include <bits/stdc++.h>
+#define ll long long
+#define ld long double
+#define Hosam ios::sync_with_stdio(0); cin.tie(0);
+using namespace std;
+
+const ll oo = 1e9, N = 1e3, MOD = 1e9 + 7;
+const ld PI = acos(-1.0L), EPS = 1e-9;
+vector<ll> adj[N]; 
+void solve(){
+    ll n, m; cin >> n >> m;  
+    vector<bool> vis(n + 1, false);  
+    for(ll i = 0, u, v; i < m ;i++){
+        cin >> u >> v; 
+        adj[u].emplace_back(v); 
+        adj[v].emplace_back(u); 
+    }
+
+    auto BFS = [&](ll src){
+        queue<ll>q; 
+        vector<bool>vis(n);
+        q.emplace(src); 
+        vis[src] = true; 
+        while (q.size()){
+            ll u = q.front(); 
+            cout << u << " "; 
+            //  element in level 
+            q.pop(); 
+            for(auto c : adj[u]){
+                if(vis[c]) continue;
+                q.emplace(c); 
+                vis[c] = true; 
+            }
+        }
+    }; 
+    BFS(1); 
+}
+
+int main(){
+    Hosam;
+    solve();
+    return 0;
+}
