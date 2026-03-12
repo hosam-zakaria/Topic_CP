@@ -1,0 +1,13 @@
+Diameter Endpoint Trick in Trees
+
+In a tree, the diameter is the longest path between any two nodes.
+
+If for each node i we know its farthest node p[i], then the ends of the diameter satisfy:
+
+p[p[i]] == i
+
+Each pair of nodes like this represents one tree.
+
+To count the number of trees, count all nodes that satisfy p[p[i]] == i and divide by 2.
+
+This is a neat property of trees used to solve problems about connected components when only farthest-node info is given.
