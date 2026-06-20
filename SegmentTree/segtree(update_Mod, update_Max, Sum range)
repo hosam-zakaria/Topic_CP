@@ -1,0 +1,121 @@
+#include <bits/stdc++.h>
+#define ll long long
+#define ld long double
+#define Hosam ios::sync_with_stdio(0); cin.tie(0);
+using namespace std;
+
+const ll oo = 1e9, N = 1e6, MOD = 1e9 + 7;
+const ld PI = acos(-1.0L), EPS = 1e-9;
+struct Node{
+    ll mx , sum; 
+    Node(){ sum = mx = 0; }
+    Node(ll val){ sum = mx = val; }
+}; 
+struct segtree {
+    vector<Node> tree; 
+    segtree(ll n){
+        tree.resize(n << 2); 
+    }
+    segtree(ll n, vector<ll> &v){
+        tree.resize(n << 2); 
+        build(1, 0, n - 1, v); 
+    }
+
+    Node merge(Node left, Node right){
+        Node ret;
+        ret.sum = left.sum + right.sum;
+        ret.mx = max(left.mx, right.mx);
+        return ret;
+    }
+
+    void build(ll node , ll l, ll r, vector<ll> &v){
+        if(l == r){
+            tree[node] = Node(v[l]); 
+            return; 
+        }
+
+        ll mid = l + (r - l) / 2; 
+        build(node << 1, l, mid, v); 
+        build(node << 1 | 1, mid + 1, r, v); 
+        tree[node] = merge(tree[node << 1] , tree[node << 1 | 1]); 
+    }   
+
+    void update_mod(ll node, ll l, ll r,ll s, ll e, ll x){
+        if(l > e || r < s || tree[node].mx < x) return;
+        if(l == r){
+            tree[node].sum %= x;
+            tree[node].mx %= x;
+            return;
+        }
+
+        ll mid = l + (r - l) / 2;
+
+        update_mod(node << 1, l, mid, s, e, x);
+        update_mod(node << 1 | 1, mid + 1, r, s, e, x);
+
+        tree[node] = merge(tree[node << 1],tree[node << 1 | 1]);
+    }
+
+    void update_max(ll node, ll l, ll r,ll s, ll e, ll x){
+        if(l > e || r < s)return;
+
+        if(l == r){
+            tree[node].sum = max(tree[node].sum, x);
+            tree[node].mx = tree[node].sum;
+            return;
+        }
+
+        ll mid = l + (r - l) / 2;
+
+        update_max(node << 1, l, mid, s, e, x);
+        update_max(node << 1 | 1, mid + 1, r, s, e, x);
+
+        tree[node] = merge(tree[node << 1],tree[node << 1 | 1]);
+    }
+
+    Node query(ll node, ll l, ll r, ll s, ll e){
+        if(l > e || r < s){
+            return Node(0); 
+        }
+        if(l >= s && r <= e){
+            return tree[node]; 
+        }
+
+        ll mid = l + (r - l) / 2; 
+        return merge(query(node << 1, l, mid, s, e) , query(node << 1 | 1, mid + 1, r, s, e)); 
+    }
+};
+
+void solve(){
+    ll n, q; 
+    cin >> n >> q; 
+
+    vector<ll> v(n); 
+    for(auto &c : v){
+        cin >> c; 
+    }
+
+    segtree seg(n, v); 
+    while(q--){
+        ll ty , l, r, x; 
+        cin >> ty >> l >> r; 
+        l--; r--; 
+        if(ty == 1){
+            cin >> x; 
+            seg.update_mod(1, 0, n - 1, l, r, x); 
+        }else if(ty == 2){
+            cin >> x; 
+            seg.update_max(1, 0, n - 1, l, r, x); 
+        }else {
+
+            cout << seg.query(1, 0, n - 1, l, r).sum << endl; 
+        }
+    }
+    
+}
+
+int main(){
+    Hosam;
+    solve();
+    return 0;
+}
