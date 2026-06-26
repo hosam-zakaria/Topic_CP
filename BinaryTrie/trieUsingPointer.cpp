@@ -13,21 +13,33 @@ private:
     struct Node{
         bool isLeaf = 1; 
         bool isEnd = 0; 
-        vector<Node*>child = vector<Node*>(26, NULL); 
+        vector<Node*>child = vector<Node*>(10, NULL); 
     }; 
     Node* root; 
+    void clear(Node* nd) {
+        if (nd == NULL) return;
+        for (int i = 0; i < 10; i++) {
+            if (nd->child[i] != NULL) {
+                clear(nd->child[i]);
+            }
+        }
+        delete nd;
+    }
 public: 
     Trie(){
         root = new Node();
     }
+    ~Trie() {
+        clear(root);
+    }
     void add(string s){
         Node* nd = root; 
         for(auto ch : s){
-            if(nd->child[ch - 'a'] == NULL){
+            if(nd->child[ch - '0'] == NULL){
                 nd->isLeaf = 0; 
-                nd->child[ch - 'a'] = new Node; 
+                nd->child[ch - '0'] = new Node; 
             }
-            nd = nd->child[ch - 'a']; 
+            nd = nd->child[ch - '0']; 
         }
         nd->isEnd = 1; 
     }
@@ -35,16 +47,16 @@ public:
     bool find_string(string s){
         Node* nd = root; 
         for(auto ch : s){
-            if(nd->child[ch - 'a'] == NULL) return 0; 
-            nd = nd->child[ch - 'a']; 
+            if(nd->child[ch - '0'] == NULL) return 0; 
+            nd = nd->child[ch - '0']; 
         }
-        return nd->isEnd; 
+        return (nd->isLeaf == 0);
     }
 
     bool isPrefix(string s){
         Node* nd = root; 
         for(auto ch : s){
-            nd = nd->child[ch - 'a']; 
+            nd = nd->child[ch - '0']; 
         }
         return nd->isLeaf; 
     }
@@ -61,8 +73,9 @@ void solve(){
         for(auto &c : arr) { cin >> c; trie.add(c); }
         ll ans = 1; 
         for(auto s : arr){
-            if(trie.isPrefix(s)){
+            if(trie.isPrefix(s) == 0){
                 ans = 0; 
+                break;
             }
         }
         if(ans == 1){ cout << "YES" << endl; }
