@@ -78,6 +78,24 @@ public:
         }
         return ans;
     }
+    int maxXor(int x){
+        Node* nd = root;
+        int ans = 0;
+
+        for(int i = BITS; i >= 0; i--){
+            int bit = (x >> i) & 1;
+
+            if(nd->child[bit ^ 1]){
+                ans |= (1 << i);
+                nd = nd->child[bit ^ 1];
+            }
+            else{
+                nd = nd->child[bit];
+            }
+        }
+
+        return ans;
+    }
 };
 
 int main(){
