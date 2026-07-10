@@ -1,0 +1,11 @@
+// Count Even
+n / 2
+
+// Count Odd
+n - n / 2
+
+// Multiples of k
+n / k
+
+// Multiples of k in [l,r]
+r / k - (l - 1) / k
