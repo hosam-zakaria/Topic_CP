@@ -48,3 +48,10 @@ ll nCr(ll n, ll r){
     if(r < 0 || r > n) return 0;
     return fact[n] * invfact[r] % MOD * invfact[n-r] % MOD;
 }
+
+
+-----------------------------------------------------------------------------
+ll nCr3(ll x){
+    if(x < 3) return 0;
+    return x * (x - 1) * (x - 2) / 6;
+}
