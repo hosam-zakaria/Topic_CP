@@ -15,6 +15,7 @@ struct Node{
     Node(ll val){
         sum = val;
         mn = min(0LL, val);
+        mx = max(0LL, val);
     }
 };
 struct segtree{
@@ -33,6 +34,7 @@ struct segtree{
         Node ret;
         ret.sum = left.sum + right.sum;
         ret.mn = min(left.mn, left.sum + right.mn);
+        ret.mx = max(left.mx, left.sum + right.mx);
         return ret;
     }
 
